@@ -1,4 +1,6 @@
 import { db } from "../config/db.js";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 
 export async function register(email, nick, password) {
@@ -34,13 +36,15 @@ export async function login(email, password) {
     const user = resoult.rows[0];
 
     if( !user ) {
-        return res.status(400).json({ error: "User not found"});
+        // return res.status(400).json({ error: "User not found"});
+        throw new Error("User not found!");
     }
 
     const valid = await bcrypt.compare(password, user.password_hash);
 
     if ( !valid ) {
-        return res.status(400).json({ error: "Wrong Password"});
+        // return res.status(400).json({ error: "Wrong Password"});
+        throw new Error("Wrong password!");
     }
 
     const token = crypto.randomBytes(32).toString("hex");
@@ -50,29 +54,32 @@ export async function login(email, password) {
     await db.query(`
         INSERT INTO sessions (token, user_id, expires_at)
         VALUES ($1, $2, $3)
-        `, [token, user.id, expiresAt.toISOString()]
+        `, [token, user.id, expiresAt]
     );
+
 
     return{ token };
 }
 
 export async function verifyToken(token) {
-
     if (!token) {
         throw new Error("No token");
     }
 
-    const resoult = await db.query(`
-        SELECT
-            user.id,
-            user.nick,
-            session.expires_at
-        FROM sessions
-        JOIN users ON sessions.user.id = user.id
-        WHERE token = $1
+    const result = await db.query(`
+    SELECT
+        users.id AS user_id,
+        users.nick,
+        sessions.expires_at
+    FROM sessions
+    JOIN users ON sessions.user_id = users.id
+    WHERE token = $1
     `, [token]);
-
-    const session = resoult.rows[0];
+    
+    
+    
+    const session = result.rows[0];
+    console.log("SESSION:", session);
 
     if (!session) throw new Error("Invalid token");
 
@@ -84,7 +91,7 @@ export async function verifyToken(token) {
         throw new Error("Session expired");
     }
     return {
-        userId: session.id,
+        userId: session.user_id,
         nick: session.nick
     };
 

@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import path from "path";
 import cors from "cors";
 import { initWebSocket } from "./ws/socket.js";
+import authRoutes from "./routes/auth.routes.js"
+import uploadRoutes from "./routes/upload.routes.js"
 
 // test
 
@@ -15,7 +17,8 @@ app.use(cors({
 app.use(express.static("public"));
 app.use(bodyParser.json());
 
-// app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/upload", uploadRoutes);
 
 const server = app.listen(3000, () => {
     console.log("Serwer działa na http://localhost:3000");

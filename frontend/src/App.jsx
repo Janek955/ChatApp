@@ -6,6 +6,8 @@ import ChatArea from "./components/chat/ChatArea";
 import TopBar from "./components/top_bar/TopBar";
 import SideBarLeft from "./components/sidebars/left/SideBarLeft";
 import SideBarRight from "./components/sidebars/right/SideBarRight";
+import { loginViaToken } from "./services/api/api";
+
 
 function App() {
     const [ token, setToken ] = useState(null);
@@ -20,44 +22,54 @@ function App() {
 
         const savedToken = localStorage.getItem("token");
         
-        if (savedToken) {
-            handleLogin(savedToken);
-        }
+        if (!savedToken) return;
+        
+            // handleLogin(savedToken);
+        setToken(savedToken);
+        
+        loginViaToken(savedToken)
+            .then( user => {
+                console.log("Auto login: ", user);
 
-        connect(savedToken, {
-            authSuccess: (data) => {
-                setNick(data.nick);
-                console.log(nick);
-                console.log("test");
-            },
-            chat: (data) => {
-                setMessages(prev => [
-                    ...prev,
-                    {
-                        nick: data.nick,
-                        connect: data.message
+                setNick(user.nick);
+
+                connect(savedToken, {
+                    authSuccess: (data) => {
+                        setNick(data.nick);
+                        console.log(nick);
+                        console.log("test");
+                    },
+                    chat: (data) => {
+                        setMessages(prev => [
+                            ...prev,
+                            {
+                                nick: data.nick,
+                                connect: data.message
+                            }
+                        ]);
+                    },
+                    history: (data) => {
+                        setMessages(data.messages);
+                    },
+                
+                    userRooms: (data) => {
+                        setRooms(data.rooms);
+                    
+                        if (data.rooms.length > 0){
+                            const firstRoom = data.rooms[0].code;
+                            setCurrentRoom(firstRoom);
+                            joinRoom(firstRoom);
+                        }
                     }
-                ]);
-            },
-            history: (data) => {
-                setMessages(data.messages);
-            },
-
-            userRooms: (data) => {
-                setRooms(data.rooms);
-
-                if (data.rooms.length > 0){
-                    const firstRoom = data.rooms[0].code;
-                    setCurrentRoom(firstRoom);
-                    joinRoom(firstRoom);
-                }
-            }
 
         });
+            })
+        
+    
         
     }, []);
     const handleLogin = ( token ) => {
-        console.log("dd");
+        console.log("token: " + token);
         setToken(token);
 
         connect(token, {

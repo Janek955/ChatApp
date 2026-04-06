@@ -33,6 +33,7 @@ export async function initWebSocket(server) {
     });
 
     wss.on("connection", (ws) => {
+        try {
         ws.on("message", async (message, isBinary) => {
 
 
@@ -82,6 +83,7 @@ export async function initWebSocket(server) {
             if (handler) {
                 handler(ws, data, {rooms});
             }
+        
 
             // VOICE CHAT HANDLING
 
@@ -186,7 +188,14 @@ export async function initWebSocket(server) {
 
             //     return;
             // }
-        });
+        });} catch (err) {
+        console.error("WS ERROR:", err);
+
+        ws.send(JSON.stringify({
+            type: "error",
+            message: err.message
+        }));
+    }
         ws.on("close", () =>{
             if(ws.roomID && rooms[ws.roomID]) {
                 rooms[ws.roomID] = rooms[ws.roomID].filter(c => c !== ws);

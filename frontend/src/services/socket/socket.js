@@ -3,7 +3,7 @@ let socket;
 export function connect(token, handlers) {
     const protocol = location.protocol === "https://" ? "wss" : "ws";
     // socket = new WebSocket(`${protocol}://${location.host}`);
-    socket = new WebSocket(`${protocol}://localhost:3000`);
+    const socket = new WebSocket(`${protocol}://localhost:3000`);
     
     socket.onopen = () => {
         socket.send(JSON.stringify({
@@ -14,6 +14,7 @@ export function connect(token, handlers) {
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
+        console.log("data:",  data);
         if (handlers[data.type]) {
             handlers[data.type](data);
         }
@@ -24,6 +25,14 @@ export function connect(token, handlers) {
     };
     return socket;
 
+}
+
+function safeSend(socket, data) {
+    if ( socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify(data));
+    } else {
+        console.warn("Socket not ready");
+    }
 }
 
 export function sendMessage(message, attachments = []) {
