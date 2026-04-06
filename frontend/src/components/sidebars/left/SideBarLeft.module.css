@@ -1,0 +1,46 @@
+
+.container{
+    background-color: #211E1E;
+    border-radius: 0px 20px 20px 0px;
+    grid-area: left;
+    display: grid;
+    flex-direction: column;
+    min-height: 0;
+
+    grid-template-rows: 40px 1fr;
+    grid-template-areas:
+        "nav"
+        "rpf-content";
+}
+.nav{
+    
+    display: grid;
+    height: 100%;
+    grid-template-columns: 33% 2px 33% 2px 33%;
+    grid-template-areas:
+        "rooms . playlists . friends";
+}
+
+
+.nav > *{
+    border: none;
+    width: 100%;
+    /* background-color: #148ba0; */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.rooms{
+    grid-area: rooms;
+}
+
+.playLists{
+    grid-area: playlists;
+}
+
+.friends {
+    grid-area: friends;
+}

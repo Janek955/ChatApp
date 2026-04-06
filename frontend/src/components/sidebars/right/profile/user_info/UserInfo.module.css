@@ -1,0 +1,22 @@
+/* #player-window-user-info {
+    width: 100%;
+    height: 100%;
+} */
+.picture {
+    width: 55px;
+    height: 55px;
+    border-radius: 27.5px;
+}
+
+.picture img {
+    clip-path: circle(50% at 50% 50%);
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.nick {
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}

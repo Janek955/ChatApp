@@ -1,0 +1,38 @@
+{
+  "name": "p5",
+  "version": "1.0.0",
+  "description": "description",
+  "license": "ISC",
+  "author": "Jan",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.6.2",
+    "chokidar": "^5.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mediasoup": "^3.19.17",
+    "multer": "^2.1.0",
+    "opus-media-recorder": "^0.8.0",
+    "path": "^0.12.7",
+    "pg": "^8.20.0",
+    "react-router-dom": "^7.14.0",
+    "readline": "^1.3.0",
+    "websocket": "^1.0.35",
+    "ws": "^8.19.0"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Janek955/Music_Player.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Janek955/Music_Player/issues"
+  },
+  "homepage": "https://github.com/Janek955/Music_Player#readme"
+}

@@ -1,0 +1,65 @@
+.container {
+    background-color: #252222;
+    height: 40px;
+    width: 400px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 40px 260px 100px ;
+    grid-template-areas:
+        "play-btn progress-bar timer";
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+    justify-self: center;
+}
+
+.progressBar {
+    height: 100%;
+    background: #148ba0;
+    border-radius: 5px;
+    
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.3s linear;
+}
+
+.playButton {
+    border: none;
+    background: transparent;
+    width: 25px;
+    height: 25px;
+    color: white;
+    cursor: pointer;
+    justify-self: center;
+    align-self: center;
+}
+
+.playButton img{
+    margin: 0;
+    padding: 0;
+    filter: grayscale(0%) invert(100%);
+    color: white;
+    width: 130%;
+    height: auto;
+    object-fit: fill;
+}
+
+.timer{
+    color: white;
+    width: 100%;
+    text-wrap: none;
+    margin-left: 10px;
+    justify-self: left;
+    align-self: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

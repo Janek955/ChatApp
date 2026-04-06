@@ -1,0 +1,36 @@
+.container{
+    grid-area: topbar;
+    background-color: #1C1B1B;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 30% 1fr 30%;
+    grid-template-areas:
+        "navigation search .";
+}
+
+.nav{
+    padding-left: 10px;
+    color: white;
+}
+
+.search{
+    grid-area: search;
+    justify-self: center;
+    width: 50%;
+    color: white;
+    
+}
+
+.search input {
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: #252222;
+}
+
+.search input:focus {
+    border: none;
+    outline: none;
+    background-color: #211E1E;
+    color: white;
+}
